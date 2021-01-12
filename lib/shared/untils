@@ -1,0 +1,18 @@
+import 'dart:ui';
+
+class AppConstants {
+  static const appName = "Watch Shop";
+}
+
+class AppFonts {
+  static const primaryFont = "Poppins";
+}
+
+class AppFunctions {
+  static Color formatColor(String color) {
+    var newColor = color.substring(1).toUpperCase();
+    var preffix = "0xFF";
+    var finalColor = int.parse(preffix + newColor);
+    return Color(finalColor);
+  }
+}
