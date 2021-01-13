@@ -9,6 +9,11 @@ class OrderDetail {
   String updatedAt;
 
 
+  static List<Product> parseProductList(map) {
+    var list = map['items'] as List;
+    return list.map((product) => Product.fromJson(product)).toList();
+  }
+
   OrderDetail({this.orderId, this.total, this.status, this.userName, this.createdAt});
 
   static List<OrderDetail> parseOrderDetailList(map) {

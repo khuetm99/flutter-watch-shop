@@ -73,7 +73,7 @@ class SignInBloc extends BaseBloc with ChangeNotifier {
     btnSink.add(false); //Khi bắt đầu call api thì disable nút sign-in
     loadingSink.add(true); // show loading
 
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(Duration(seconds: 2), () {
       SignInEvent e = event as SignInEvent;
       _userRepo.signIn(e.email, e.pass).then(
               (userData) {

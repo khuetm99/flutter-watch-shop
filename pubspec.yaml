@@ -37,7 +37,7 @@ dependencies:
   flutter_money_formatter: ^0.8.2
   simple_html_css: ^2.0.0+3
   carousel_slider: ^2.3.1
-
+  firebase_messaging: ^7.0.3
 
 dev_dependencies:
   flutter_test:

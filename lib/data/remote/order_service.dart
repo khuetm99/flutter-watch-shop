@@ -31,6 +31,16 @@ class OrderService {
     );
   }
 
+// Detail order trong bill của người dùng
+  Future<Response> orderListDetail(String orderId) {
+    return WatchClient.instance.dio.get(
+      '/order/detail/bill',
+      queryParameters: {
+        'order_id': orderId,
+      },
+    );
+  }
+
   Future<Response> updateOrder(Product product) {
     return WatchClient.instance.dio.post(
       '/order/update',

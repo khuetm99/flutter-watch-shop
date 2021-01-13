@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "382198374329",
+    "project_id": "watch-shop-602f3",
+    "storage_bucket": "watch-shop-602f3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:382198374329:android:82fdf00175d6d2e29f2068",
+        "android_client_info": {
+          "package_name": "com.example.flutter_watch_shop_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "382198374329-v4k9bjhe15hqdi5gfe0k69drkjgjh66v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGNtLXbIfn1s9KrGU4GdiTLULBUc5lPYM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "382198374329-v4k9bjhe15hqdi5gfe0k69drkjgjh66v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

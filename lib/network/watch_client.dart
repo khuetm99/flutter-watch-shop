@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter_watch_shop_app/data/spref/spref.dart';
 import 'package:flutter_watch_shop_app/shared/constant.dart';
 
+//10.0.2.2 virtual
+//ipconfig v4 real device
 class WatchClient {
   static BaseOptions _options = new BaseOptions(
     baseUrl: "http://10.0.2.2:3000",

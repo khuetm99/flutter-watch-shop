@@ -43,7 +43,7 @@ class NormalButton extends StatelessWidget {
               borderRadius: new BorderRadius.circular(4.0)),
           child: Text(
             title,
-            style: BtnStyle.normal(),
+            style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: 'Muli', fontWeight: FontWeight.bold),
           ),
         ),
       ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:flutter_watch_shop_app/base/base_event.dart';
 import 'package:flutter_watch_shop_app/base/base_widget.dart';
@@ -153,10 +152,16 @@ class CartNull extends StatelessWidget {
 }
 
 
-class ConfirmInfoWidget extends StatelessWidget {
+class ConfirmInfoWidget extends StatefulWidget {
   final double total;
 
   ConfirmInfoWidget(this.total);
+
+  @override
+  _ConfirmInfoWidgetState createState() => _ConfirmInfoWidgetState();
+}
+
+class _ConfirmInfoWidgetState extends State<ConfirmInfoWidget> {
 
   @override
   Widget build(BuildContext context) {
@@ -172,7 +177,7 @@ class ConfirmInfoWidget extends StatelessWidget {
               '${FlutterMoneyFormatter(settings: MoneyFormatterSettings(
                     symbol: '\$',
                     fractionDigits: 0,
-                  ), amount: total).output.symbolOnRight}',
+                  ), amount: widget.total).output.symbolOnRight}',
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -187,6 +192,7 @@ class ConfirmInfoWidget extends StatelessWidget {
               title: 'Confirm',
               onPressed: () {
                 bloc.event.add(ConfirmOrderEvent());
+
               },
             ),
           ],

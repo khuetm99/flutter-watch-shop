@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_watch_shop_app/data/remote/order_service.dart';
 import 'package:flutter_watch_shop_app/shared/model/order.dart';
 import 'package:flutter_watch_shop_app/shared/model/order_detail.dart';
+import 'package:flutter_watch_shop_app/shared/model/order_list_detail.dart';
 import 'package:flutter_watch_shop_app/shared/model/product.dart';
 import 'package:flutter_watch_shop_app/shared/model/rest_error.dart';
 import 'package:flutter_watch_shop_app/shared/model/shopping_cart.dart';
@@ -52,6 +53,24 @@ class OrderRepo {
       var response = await _orderService.orderDetail(_orderId);
       if (response.data['data']['items'] != null) {
         var order = Order.fromJson(response.data['data']);
+        c.complete(order);
+      } else {
+        c.completeError(RestError.fromData('Không lấy được đơn hàng'));
+      }
+    } on DioError {
+      c.completeError(RestError.fromData('Không lấy được đơn hàng'));
+    } catch (e) {
+      c.completeError(RestError.fromData(e.toString()));
+    }
+    return c.future;
+  }
+
+  Future<OrderListDetail> getOrderDetailForOrderList() async {
+    var c = Completer<OrderListDetail>();
+    try {
+      var response = await _orderService.orderListDetail(_orderId);
+      if (response.data['data']['items'] != null) {
+        var order = OrderListDetail.fromJson(response.data['data']);
         c.complete(order);
       } else {
         c.completeError(RestError.fromData('Không lấy được đơn hàng'));

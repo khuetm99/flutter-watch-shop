@@ -86,20 +86,25 @@ class _BodyState extends State<Body> {
                return  ListView.builder(
                   itemCount: orders.length ,
                   itemBuilder: (context , index){
-                     return Container(
-                       height: 100,
-                       child: Card(
-                         child: ListTile(
-                           leading: Text(
-                             '${FlutterMoneyFormatter(settings: MoneyFormatterSettings(
-                               symbol: '\$',
-                               fractionDigits: 0,
-                             ), amount: orders[index].total).output.symbolOnRight}',
-                             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.black),
+                     return GestureDetector(
+                       onTap: () {
+                         Navigator.pushNamed(context, '/order-detail',arguments: orders[index].orderId);
+                       },
+                       child: Container(
+                         height: 100,
+                         child: Card(
+                           child: ListTile(
+                             leading: Text(
+                               '${FlutterMoneyFormatter(settings: MoneyFormatterSettings(
+                                 symbol: '\$',
+                                 fractionDigits: 0,
+                               ), amount: orders[index].total).output.symbolOnRight}',
+                               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.black),
+                             ),
+                             title: Text( 'Đơn hàng của ' + orders[index].userName, style: TextStyle(fontSize: 19),),
+                             subtitle: Text(DateTime.parse(orders[index].createdAt).toString()),
+                             trailing: Text(orders[index].status, style: TextStyle(fontSize: 16, color: Colors.green), ),
                            ),
-                           title: Text( 'Đơn hàng của ' + orders[index].userName, style: TextStyle(fontSize: 19),),
-                           subtitle: Text(DateTime.parse(orders[index].createdAt).toString()),
-                           trailing: Text(orders[index].status, style: TextStyle(fontSize: 16, color: Colors.green), ),
                          ),
                        ),
                      );

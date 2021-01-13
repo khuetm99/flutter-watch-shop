@@ -100,7 +100,7 @@ class SignUpBloc extends BaseBloc with ChangeNotifier {
     btnSink.add(false);
     loadingSink.add(true); // show loading
 
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(Duration(seconds: 2), () {
       SignUpEvent e = event as SignUpEvent;
       _userRepo.signUp(e.fullName, e.phone, e.email, e.pass).then(
               (userData) {

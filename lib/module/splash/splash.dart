@@ -33,14 +33,15 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Image.asset(
               'assets/watch-logo.jpg',
-              width: 200,
-              height: 200,
+              width: 300,
+              height: 300,
             ),
             Container(
               margin: EdgeInsets.only(top: 10),

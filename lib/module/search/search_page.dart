@@ -68,7 +68,7 @@ class _BodyState extends State<Body> {
                   },
                   controller: searchController,
                   decoration: InputDecoration(
-                    hintText: "Search",
+                    hintText: "Tìm kiếm sản phẩm",
                     border: InputBorder.none,
                     prefixIcon: Icon(Icons.search),
                     suffixIcon: GestureDetector(

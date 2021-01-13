@@ -63,7 +63,7 @@ class HomePage extends StatelessWidget {
           centerTitle: true,
           actions: [
             Padding(
-              padding: const EdgeInsets.only(top: 10.0),
+              padding: const EdgeInsets.all( 10.0),
               child: IconButton(
                 icon: Icon(
                   Icons.search,
@@ -256,7 +256,7 @@ class _CartWidgetState extends State<CartWidget> {
           builder: (context, data, child) {
             if (data == null || data is RestError) {
               return Container(
-                margin: EdgeInsets.only(top: 10, right: 10),
+                margin: EdgeInsets.only(top: 10, right: 10, bottom: 5),
                 child: Icon(
                   Icons.shopping_cart,
                   color: Colors.black,
@@ -273,7 +273,7 @@ class _CartWidgetState extends State<CartWidget> {
                     arguments: cart.orderId);
               },
               child: Container(
-                margin: EdgeInsets.only(top: 15, right: 20),
+                margin: EdgeInsets.only(top: 15, right: 20, bottom: 10),
                 child: Badge(
                   badgeContent: Text(
                     '${cart.total}',
@@ -340,7 +340,7 @@ class _CateListWidgetState extends State<CateListWidget> {
                     if (data == null) {
                       return Center(
                         child: CircularProgressIndicator(
-                          backgroundColor: Colors.yellow,
+                          backgroundColor: Colors.black12,
                         ),
                       );
                     }
@@ -446,7 +446,7 @@ class ProductListWidget extends StatelessWidget {
                 if (data == null) {
                   return Center(
                     child: CircularProgressIndicator(
-                      backgroundColor: Colors.yellow,
+                      backgroundColor: Colors.black38,
                     ),
                   );
                 }
