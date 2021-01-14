@@ -120,7 +120,8 @@ class DrawerCustom extends StatelessWidget {
                     ),
                   ),
                   ListTile(
-                    onTap: () {},
+                    onTap: () {
+                    },
                     leading: Icon(Icons.home),
                     title: CustomText(text: "Home"),
                   ),

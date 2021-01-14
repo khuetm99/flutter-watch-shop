@@ -3,6 +3,7 @@ import 'package:flutter_watch_shop_app/module/cate/category_page.dart';
 import 'package:flutter_watch_shop_app/module/checkout/checkout_page.dart';
 import 'package:flutter_watch_shop_app/module/order_detail/order_detail_page.dart';
 import 'package:flutter_watch_shop_app/module/order_list/order_list_page.dart';
+import 'package:flutter_watch_shop_app/module/payment/payment_complete_page.dart';
 import 'package:flutter_watch_shop_app/module/product_detail/product_detail_page.dart';
 import 'package:flutter_watch_shop_app/module/search/search_page.dart';
 import 'package:flutter_watch_shop_app/module/signin/signin_page.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
         '/order' : (context) => OrderListPage(),
         '/order-detail' : (context) => OrderDetailPage(),
         '/cate' : (context) => CatePage(),
+        '/payment' : (context) => PaymentCompletePage(),
       }
     );
   }
