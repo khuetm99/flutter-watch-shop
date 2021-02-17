@@ -16,7 +16,7 @@
      <img src="screenshots/category.png" height = "480" width="270">
      </p>
 
-      <p align="center">
+   <p align="center">
        <img src="screenshots/search.png" height = "480" width="270">
        </p>
 
@@ -25,10 +25,10 @@
       <img src="screenshots/detail.png" height = "480" width="270">
       </p>
 
-    <p align="center">
+   <p align="center">
        <img src="screenshots/cart.png" height = "480" width="270">
        </p>
 
-    <p align="center">
-       <img src="screenshots/order.png" height = "480" width="270">
+   <p align="center">
+       <img src="screenshots/orders.png" height = "480" width="270">
        </p>
