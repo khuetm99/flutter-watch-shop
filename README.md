@@ -4,6 +4,10 @@
 
 # Screenshot
 
+   <p align="center">
+     <img src="screenshots/splash.png" height = "480" width="270">
+     </p>
+
   <p align="center">
    <img src="screenshots/login.png" height = "480" width="270"> <img src="screenshots/sign-up.png" height = "480" width="270">
    </p>
