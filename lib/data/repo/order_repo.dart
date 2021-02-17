@@ -137,4 +137,18 @@ class OrderRepo {
     }
     return c.future;
   }
+
+
+  Future<bool> destroyOrder() async {
+    var c = Completer<bool>();
+    try {
+      await _orderService.destroyOrder(_orderId);
+      c.complete(true);
+    } on DioError {
+      c.completeError(RestError.fromData('Lỗi delete đơn hàng'));
+    } catch (e) {
+      c.completeError(e);
+    }
+    return c.future;
+  }
 }

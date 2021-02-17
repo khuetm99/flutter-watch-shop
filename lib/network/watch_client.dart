@@ -6,7 +6,7 @@ import 'package:flutter_watch_shop_app/shared/constant.dart';
 //ipconfig v4 real device
 class WatchClient {
   static BaseOptions _options = new BaseOptions(
-    baseUrl: "http://10.0.2.2:3000",
+    baseUrl: "http://192.168.100.7:3000",
     connectTimeout: 5000,
     receiveTimeout: 3000,
   );

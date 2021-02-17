@@ -71,4 +71,15 @@ class OrderService {
       },
     );
   }
+
+  Future<Response> destroyOrder(String orderId) {
+    return WatchClient.instance.dio.post(
+      '/order/confirm',
+      data: {
+        'orderId': orderId,
+        'status': 'DELETED',
+      },
+    );
+  }
+
 }
