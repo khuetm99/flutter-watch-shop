@@ -29,6 +29,14 @@ class OrderListBloc extends BaseBloc with ChangeNotifier {
     );
   }
 
+
+  Stream<List<OrderDetail>> getOrderDeletedList() {
+    return Stream<List<OrderDetail>>.fromFuture(
+      _orderRepo.getOrderDeletedList(),
+    );
+  }
+
+
   @override
   void dispose() {
     // TODO: implement dispose

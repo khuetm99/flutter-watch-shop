@@ -97,6 +97,20 @@ class OrderRepo {
     return c.future;
   }
 
+  Future<List<OrderDetail>> getOrderDeletedList() async {
+    var c = Completer<List<OrderDetail>>();
+    try {
+      var response = await _orderService.orderdeletedList();
+      var orderList = OrderDetail.parseOrderDetailList(response.data);
+      c.complete(orderList);
+    } on DioError {
+      c.completeError(RestError.fromData('Không có dữ liệu'));
+    } catch (e) {
+      c.completeError(e);
+    }
+    return c.future;
+  }
+
 
   Future<bool> updateOrder(Product product) async {
     var c = Completer<bool>();

@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_money_formatter/flutter_money_formatter.dart';
+import 'package:flutter_watch_shop_app/base/base_event.dart';
 import 'package:flutter_watch_shop_app/base/base_widget.dart';
 import 'package:flutter_watch_shop_app/data/remote/order_service.dart';
 import 'package:flutter_watch_shop_app/data/repo/order_repo.dart';
+import 'package:flutter_watch_shop_app/event/destroy_order_event.dart';
+import 'package:flutter_watch_shop_app/event/pop_event.dart';
 import 'package:flutter_watch_shop_app/module/order_detail/order_detail_bloc.dart';
 import 'package:flutter_watch_shop_app/shared/custom_text.dart';
 import 'package:flutter_watch_shop_app/shared/model/order_list_detail.dart';
 import 'package:flutter_watch_shop_app/shared/model/product.dart';
 import 'package:flutter_watch_shop_app/shared/model/rest_error.dart';
+import 'package:flutter_watch_shop_app/shared/widget/bloc_listener.dart';
 import 'package:provider/provider.dart';
 
 class OrderDetailPage extends StatelessWidget {
@@ -46,6 +50,8 @@ class OrderDetailPage extends StatelessWidget {
 }
 
 class Body extends StatefulWidget {
+
+
   final String orderId;
 
   Body(this.orderId);
@@ -55,6 +61,12 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  handleEvent(BaseEvent event) {
+    if (event is ShouldPopEvent) {
+      Navigator.pushReplacementNamed(context, '/order');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -62,42 +74,45 @@ class _BodyState extends State<Body> {
         orderRepo: Provider.of(context),
       ),
       child: Consumer<OrderDetailBloc>(
-        builder: (context, bloc, child) => Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(9.0),
-              child: Row(
-                children: <Widget>[
-                  CustomText(
-                    text: 'Mã đơn hàng : ',
-                    weight: FontWeight.w400,
-                    color: Colors.black,
-                    size: 14,
-                  ),
-                  CustomText(
-                    text: widget.orderId,
-                    size: 14,
-                    weight: FontWeight.bold,
-                  )
-                ],
+        builder: (context, bloc, child) => BlocListener<OrderDetailBloc>(
+          listener: handleEvent,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(9.0),
+                child: Row(
+                  children: <Widget>[
+                    CustomText(
+                      text: 'Mã đơn hàng : ',
+                      weight: FontWeight.w400,
+                      color: Colors.black,
+                      size: 14,
+                    ),
+                    CustomText(
+                      text: widget.orderId,
+                      size: 14,
+                      weight: FontWeight.bold,
+                    )
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  CustomText(
-                    text: 'Sản phẩm :',
-                    size: 14,
-                    weight: FontWeight.w400,
-                    color: Colors.black,
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    CustomText(
+                      text: 'Sản phẩm :',
+                      size: 14,
+                      weight: FontWeight.w400,
+                      color: Colors.black,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            OrderDetailInfo(bloc),
-          ],
+              OrderDetailInfo(bloc),
+            ],
+          ),
         ),
       ),
     );
@@ -123,7 +138,7 @@ class _OrderDetailInfoState extends State<OrderDetailInfo> {
   @override
   Widget build(BuildContext context) {
     return StreamProvider<Object>.value(
-      value: widget.bloc.orderStream,
+      value: widget.bloc.orderDetailStream,
       initialData: null,
       catchError: (context, err) {
         return err;
@@ -151,6 +166,27 @@ class _OrderDetailInfoState extends State<OrderDetailInfo> {
                 children: <Widget>[
                   Expanded(
                     child: ProductListWidget(data.items),
+                  ),
+                  Consumer<OrderDetailBloc>(
+                    builder: (context, bloc, child)
+                    => InkWell(
+                      onTap: () {
+                        bloc.event.add(DestroyOrderEvent());
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CustomText(
+                              text: 'Hủy đơn hàng',
+                              color: Colors.red,
+                              size: 18,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(20.0),

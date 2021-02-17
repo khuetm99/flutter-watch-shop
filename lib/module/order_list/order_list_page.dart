@@ -11,106 +11,129 @@ import 'package:provider/provider.dart';
 class OrderListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return PageContainer(
-      di: [
-        Provider.value(
-          value: OrderService(),
-        ),
-        ProxyProvider<OrderService, OrderRepo>(
-          update: (context, orderService, previous) =>
-              OrderRepo(
+    return DefaultTabController(
+      length: 2,
+      child: PageContainer(
+          di: [
+            Provider.value(
+              value: OrderService(),
+            ),
+            ProxyProvider<OrderService, OrderRepo>(
+              update: (context, orderService, previous) => OrderRepo(
                 orderService: orderService,
               ),
-        )
-      ],
-      bloc: [],
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
-        backgroundColor: Colors.white,
-        elevation: 0.0,
-        title: Text("Orders"),
-        leading: IconButton(
-            icon: Icon(Icons.close),
-            onPressed: () {
-              Navigator.pop(context);
-            }),
-        centerTitle: true,
-      ),
-      body: Body(),
+            )
+          ],
+          bloc: [],
+          appBar: AppBar(
+            iconTheme: IconThemeData(color: Colors.black),
+            backgroundColor: Colors.white,
+            elevation: 0.0,
+            title: Text("Orders"),
+            leading: IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/home');
+                }),
+            centerTitle: true,
+            bottom: TabBar(
+              indicatorColor: Color(0xff9962D0),
+              tabs: [
+                Tab(
+                  text: 'CONFIRM',
+                ),
+                Tab(
+                  text: 'DELETE',
+                ),
+              ],
+            ),
+          ),
+          body: TabBarView(children: [
+            ConfirmOrderList(),
+            DeleteOrderList(),
+          ])),
     );
   }
 }
 
-class Body extends StatefulWidget {
+class DeleteOrderList extends StatefulWidget {
   @override
-  _BodyState createState() => _BodyState();
+  _DeleteOrderListState createState() => _DeleteOrderListState();
 }
 
-class _BodyState extends State<Body> {
+class _DeleteOrderListState extends State<DeleteOrderList> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-      value: OrderListBloc(
-        orderRepo : Provider.of(context)
-      ),
+      value: OrderListBloc(orderRepo: Provider.of(context)),
       child: Consumer<OrderListBloc>(
-        builder: (context, bloc, child)
-        => Container(
+        builder: (context, bloc, child) => Container(
           child: StreamProvider<Object>.value(
-            value: bloc.getOrderList(),
+            value: bloc.getOrderDeletedList(),
             initialData: null,
             catchError: (context, error) {
               return error;
             },
-            child: Consumer<Object>(
-              builder: (context, data, child){
-               if (data == null) {
-                 return Center(
-                   child: CircularProgressIndicator(
-                     backgroundColor: Colors.yellow,
-                   ),
-                 );
-               }
+            child: Consumer<Object>(builder: (context, data, child) {
+              if (data == null) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    backgroundColor: Colors.yellow,
+                  ),
+                );
+              }
 
-               if (data is RestError) {
-                 return Center(
-                   child: Container(
-                     child: Text(
-                       data.message,
-                       style: TextStyle(fontSize: 20),
-                     ),
-                   ),
-                 );
-               }
-                  var orders = data as List<OrderDetail>;
-               return  ListView.builder(
-                  itemCount: orders.length ,
-                  itemBuilder: (context , index){
-                     return GestureDetector(
-                       onTap: () {
-                         Navigator.pushNamed(context, '/order-detail',arguments: orders[index].orderId);
-                       },
-                       child: Container(
-                         height: 100,
-                         child: Card(
-                           child: ListTile(
-                             leading: Text(
-                               '${FlutterMoneyFormatter(settings: MoneyFormatterSettings(
-                                 symbol: '\$',
-                                 fractionDigits: 0,
-                               ), amount: orders[index].total).output.symbolOnRight}',
-                               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.black),
-                             ),
-                             title: Text( 'Đơn hàng của ' + orders[index].userName, style: TextStyle(fontSize: 19),),
-                             subtitle: Text(DateTime.parse(orders[index].createdAt).toString()),
-                             trailing: Text(orders[index].status, style: TextStyle(fontSize: 16, color: Colors.green), ),
-                           ),
-                         ),
-                       ),
-                     );
+              if (data is RestError) {
+                return Center(
+                  child: Container(
+                    child: Text(
+                      data.message,
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                );
+              }
+              var orders = data as List<OrderDetail>;
+              return ListView.builder(
+                  itemCount: orders.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/order-detail',
+                            arguments: orders[index].orderId);
+                      },
+                      child: Container(
+                        height: 100,
+                        child: Card(
+                          child: ListTile(
+                            leading: Text(
+                              '${FlutterMoneyFormatter(settings: MoneyFormatterSettings(
+                                symbol: '\$',
+                                fractionDigits: 0,
+                              ), amount: orders[index].total).output.symbolOnRight}',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black),
+                            ),
+                            title: Text(
+                              'Đơn hàng của ' + orders[index].userName,
+                              style: TextStyle(fontSize: 19),
+                            ),
+                            subtitle: Text(
+                                DateTime.parse(orders[index].createdAt)
+                                    .toString()),
+                            trailing: Text(
+                              orders[index].status,
+                              style:
+                              TextStyle(fontSize: 16, color: Colors.red),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
                   });
-             }
-            ),
+            }),
           ),
         ),
       ),
@@ -118,3 +141,88 @@ class _BodyState extends State<Body> {
   }
 }
 
+
+class ConfirmOrderList extends StatefulWidget {
+  @override
+  _ConfirmOrderListState createState() => _ConfirmOrderListState();
+}
+
+class _ConfirmOrderListState extends State<ConfirmOrderList> {
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider.value(
+      value: OrderListBloc(orderRepo: Provider.of(context)),
+      child: Consumer<OrderListBloc>(
+        builder: (context, bloc, child) => Container(
+          child: StreamProvider<Object>.value(
+            value: bloc.getOrderList(),
+            initialData: null,
+            catchError: (context, error) {
+              return error;
+            },
+            child: Consumer<Object>(builder: (context, data, child) {
+              if (data == null) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    backgroundColor: Colors.yellow,
+                  ),
+                );
+              }
+
+              if (data is RestError) {
+                return Center(
+                  child: Container(
+                    child: Text(
+                      data.message,
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                );
+              }
+              var orders = data as List<OrderDetail>;
+              return ListView.builder(
+                  itemCount: orders.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/order-detail',
+                            arguments: orders[index].orderId);
+                      },
+                      child: Container(
+                        height: 100,
+                        child: Card(
+                          child: ListTile(
+                            leading: Text(
+                              '${FlutterMoneyFormatter(settings: MoneyFormatterSettings(
+                                    symbol: '\$',
+                                    fractionDigits: 0,
+                                  ), amount: orders[index].total).output.symbolOnRight}',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black),
+                            ),
+                            title: Text(
+                              'Đơn hàng của ' + orders[index].userName,
+                              style: TextStyle(fontSize: 19),
+                            ),
+                            subtitle: Text(
+                                DateTime.parse(orders[index].createdAt)
+                                    .toString()),
+                            trailing: Text(
+                              orders[index].status,
+                              style:
+                                  TextStyle(fontSize: 16, color: Colors.green)
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  });
+            }),
+          ),
+        ),
+      ),
+    );
+  }
+}

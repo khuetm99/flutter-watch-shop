@@ -2,8 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_watch_shop_app/base/base_bloc.dart';
 import 'package:flutter_watch_shop_app/base/base_event.dart';
 import 'package:flutter_watch_shop_app/data/repo/order_repo.dart';
-import 'package:flutter_watch_shop_app/shared/model/order.dart';
-import 'package:flutter_watch_shop_app/shared/model/order_detail.dart';
+import 'package:flutter_watch_shop_app/event/destroy_order_event.dart';
+import 'package:flutter_watch_shop_app/event/pop_event.dart';
 import 'package:flutter_watch_shop_app/shared/model/order_list_detail.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -14,22 +14,31 @@ class OrderDetailBloc extends BaseBloc with ChangeNotifier {
     @required OrderRepo orderRepo,
   }) : _orderRepo = orderRepo;
 
-  final _orderSubject = BehaviorSubject<OrderListDetail>();
+  final _orderDetailSubject = BehaviorSubject<OrderListDetail>();
 
-  Stream<OrderListDetail> get orderStream => _orderSubject.stream;
-  Sink<OrderListDetail> get orderSink => _orderSubject.sink;
+  Stream<OrderListDetail> get orderDetailStream => _orderDetailSubject.stream;
+  Sink<OrderListDetail> get orderDetailSink => _orderDetailSubject.sink;
 
   @override
   void dispatchEvent(BaseEvent event) {
     switch (event.runtimeType) {
+      case DestroyOrderEvent:
+        handleDestroyOrder(event);
+        break;
     }
+  }
+
+  handleDestroyOrder(event) {
+    _orderRepo.destroyOrder().then((isSuccess) {
+      processEventSink.add(ShouldPopEvent());
+    });
   }
 
   getOrderDetailForOrderList() {
     Stream<OrderListDetail>.fromFuture(
       _orderRepo.getOrderDetailForOrderList(),
     ).listen((order) {
-      orderSink.add(order);
+      orderDetailSink.add(order);
     });
   }
 
@@ -37,6 +46,6 @@ class OrderDetailBloc extends BaseBloc with ChangeNotifier {
   void dispose() {
     super.dispose();
     print('checkout close');
-    _orderSubject.close();
+    _orderDetailSubject.close();
   }
 }

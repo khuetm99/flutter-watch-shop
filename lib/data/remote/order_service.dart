@@ -31,6 +31,12 @@ class OrderService {
     );
   }
 
+  Future<Response> orderdeletedList() {
+    return WatchClient.instance.dio.get(
+      '/order/user/deleted-list',
+    );
+  }
+
 // Detail order trong bill của người dùng
   Future<Response> orderListDetail(String orderId) {
     return WatchClient.instance.dio.get(
