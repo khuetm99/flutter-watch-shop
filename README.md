@@ -30,5 +30,5 @@
        </p>
 
       <p align="center">
-       <img src="screenshots/orders.png" height = "480" width="270">
+       <img src="screenshots/order.png" height = "480" width="270">
        </p>
