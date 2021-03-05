@@ -1,6 +1,9 @@
 # flutter_watch_shop_app
 
  Flutter app using bloc + provider architecture
+ 
+ Backend : https://github.com/khuetm99/golang-backend-watchshop
+ Admin-web : https://github.com/khuetm99/web-admin-watchshop
 
 # Screenshot
 
